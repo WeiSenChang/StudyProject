@@ -1,0 +1,44 @@
+void quickSort(std::vector<int>& nums, int left, int right)
+{
+    //左值小于右值时进行迭代，否则退出
+    if (left < right) {
+        int key = nums[left];//设置基准值
+        int i = left;//临时左指针
+        int j = right;//临时右指针
+        //i<j,将数组按照基准值分割，小的在左，大的在右
+        while (i < j) {
+            //从右找到第一个比基准值小的数
+            while (i < j && nums[j] > key) {
+                j--;
+            }
+            if (i < j) {
+                nums[i] = nums[j];//把第一个比基准值小的数移到第一个比基准值大的数(初始为基准值)所在位置
+                i++;//左指针从第一个比基准值小的数的位置+1开始
+            }
+            //从左找到第一个比基准值大的数
+            while (i < j && nums[i] < key) {
+                i++;
+            }
+            if (i < j) {
+                nums[j] = nums[i];//把第一个比基准值大的数移到第一个比基准值小的数所在位置
+                j--;//右指针从基准值所在位置+1开始
+            }
+        }
+        nums[i] = key;//i=j时，退出循环
+        //进行迭代
+        quickSort(nums, left, i - 1);
+        quickSort(nums, i + 1, right);
+    }
+}
+/*  简单案例
+    nums=4 1 6 3 7
+    (key=)4(i=0) 1 6 3 7(j=4)      
+    (4=)3(i=0) 1 6 3(j=3) 7      
+    3 1 6(i=2) (3=)6(j=3) 7
+    i=j退出循环
+    3 1 (6=)4(key)(i=j=2) 6 7
+    进行迭代
+    left:3 1  -> 1 3
+    right:6 7
+    结束
+    nums=1 3 4 6 7  */
